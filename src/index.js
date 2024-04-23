@@ -43,19 +43,19 @@ const root = ReactDOM.createRoot(el)
     const comments = []
     const counter = 50
 
-  for (let i = 0; i < counter; i++) {
-    comments.push(
-      <Comment 
-        key={i}
-        avatar={faker.image.avatar()} 
-        author={faker.person.fullName()} 
-        date={faker.date.past()} 
-        comment={faker.word.words({ count: { min: 1, max: 30 } })} 
-      />
-    )
-  }
+    for (let i = 0; i < counter; i++) {
+      comments.push(
+        <Comment 
+          key={i}
+          avatar={faker.image.avatar()} 
+          author={faker.person.fullName()} 
+          date={faker.date.past()} 
+          comment={faker.word.words({ count: { min: 1, max: 30 } })} 
+        />
+      )
+    }
 
-  return <div>{comments}</div>
+    return <div>{comments}</div>
   }
 
   // show the component on the screen
