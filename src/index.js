@@ -1,28 +1,62 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import styled from 'styled-components'
+import ReactDOM from 'react-dom/client'
+import { faker } from '@faker-js/faker'
 
-const StyledNav = styled.nav`position: absolute;
-                            top: 25px;
-                            right: 0;
-                            margin-right:5px;`
+const el = document.getElementById('root')
 
-const NavLink = styled.a`padding: 10px;
-                        color: black;
-                        text-decoration: none;`
+// tell react to take control of that element
+const root = ReactDOM.createRoot(el)
 
-const nav = (
-  <StyledNav>
-    <NavLink href="/">home</NavLink>
-    <NavLink href="/about">about</NavLink>
-    <NavLink href="/contact">contact</NavLink>
-  </StyledNav>
-)
+// function perkenalan(nama, pekerjaan){
+//   return <p>Hi nama Saya {nama} dan pekerjaan saya adalah {pekerjaan}</p>
+// }
 
-ReactDOM.render(nav, document.getElementById('nav'))
+  function formatDate(date) {
+    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true }
+    return new Date(date).toLocaleString('en-US', options)
+  }
 
-const header = <h2>BOOTCAMP Batch 8 : Experiment with REACTS.JS</h2>
-ReactDOM.render(header, document.getElementById('header'))
+  // create a component
+  function Comment({ avatar, author, date, comment }) {
+    return (
+      <div className='ui container comments'>
+        <div className='comment'>
+          <a href='/' className='avatar'>
+            <img alt='avatar' src={avatar} width={30}/>
+          </a>
+          <div className='content'>
+            <a href='/' className='author'>
+              {author}
+            </a>
+            <div className='metadata'>
+              <span className='date'>{formatDate(date)}</span>
+            </div>
+            <div className='text'>{comment}</div>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
-const element = <h1>This is React</h1>
-ReactDOM.render(element, document.getElementById('root'))
+
+  function App(){
+    const comments = []
+    const counter = 50
+
+  for (let i = 0; i < counter; i++) {
+    comments.push(
+      <Comment 
+        key={i}
+        avatar={faker.image.avatar()} 
+        author={faker.person.fullName()} 
+        date={faker.date.past()} 
+        comment={faker.word.words({ count: { min: 1, max: 30 } })} 
+      />
+    )
+  }
+
+  return <div>{comments}</div>
+  }
+
+  // show the component on the screen
+  root.render(<App />)
