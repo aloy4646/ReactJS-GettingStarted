@@ -27,22 +27,20 @@ function formatDate(date) {
 // create a component
 class Comment extends React.Component {
   render(){
-    const { avatar, author, date, comment } = this.props
-
     return (
       <div className="ui container comments">
         <div className="comment">
           <a href="/" className="avatar">
-            <img alt="avatar" src={avatar} width={30} />
+            <img alt="avatar" src={this.props.avatar} width={30} />
           </a>
           <div className="content">
             <a href="/" className="author">
-              {author}
+              {this.props.author}
             </a>
             <div className="metadata">
-              <span className="date">{formatDate(date)}</span>
+              <span className="date">{formatDate(this.props.date)}</span>
             </div>
-            <div className="text">{comment}</div>
+            <div className="text">{this.props.comment}</div>
           </div>
         </div>
       </div>)
@@ -65,7 +63,7 @@ class App extends React.Component {
         />
       )
     }
-    
+
     return <div>{comments}</div>
   }
 }
