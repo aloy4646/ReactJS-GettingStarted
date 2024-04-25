@@ -26,9 +26,14 @@ function formatDate(date) {
 
 // create a component
 class Comment extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      count: 0
+    }
+  }
   render(){
     return (
-      <div className="ui container comments">
         <div className="comment">
           <a href="/" className="avatar">
             <img alt="avatar" src={this.props.avatar} width={30} />
@@ -40,10 +45,12 @@ class Comment extends React.Component {
             <div className="metadata">
               <span className="date">{formatDate(this.props.date)}</span>
             </div>
+            <span> | Liked: {this.state.count}</span>
             <div className="text">{this.props.comment}</div>
+            <button onClick={() => this.setState({count : this.state.count + 1})}>click on me!</button>
           </div>
         </div>
-      </div>)
+)
   }
 }
 
@@ -54,17 +61,20 @@ class App extends React.Component {
 
     for (let i = 0; i < counter; i++) {
       comments.push(
-        <Comment
-          key={i}
-          avatar={faker.image.avatar()}
-          author={faker.person.fullName()}
-          date={faker.date.past()}
-          comment={faker.word.words({ count: { min: 1, max: 30 } })}
-        />
+        <div>
+          <Comment
+            key={i}
+            avatar={faker.image.avatar()}
+            author={faker.person.fullName()}
+            date={faker.date.past()}
+            comment={faker.word.words({ count: { min: 1, max: 30 } })}
+          />
+          <br></br>
+        </div>  
       )
     }
 
-    return <div>{comments}</div>
+    return <div className="ui container comments">{comments}</div>
   }
 }
 
