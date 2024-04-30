@@ -1,11 +1,52 @@
 import React from "react"
 import ReactDOM from "react-dom/client"
 import unsplash from "./unsplash"
+import './ImageList.css'
 
 const el = document.getElementById("root")
 
 // tell react to take control of that element
 const root = ReactDOM.createRoot(el)
+
+class ImageList extends React.Component{
+    render(){
+        const images = this.props.images.map((image, index) => (
+                            <ImageCard 
+                                image = {image}
+                            />
+                        ))
+
+        return <div className="image-list">{images}</div>
+    }
+}
+
+class ImageCard extends React.Component{
+    constructor(props){
+        super(props)
+        this.state = { spans: 0 }
+        this.imageRef = React.createRef()
+    }
+
+    componentDidMount(){
+        this.imageRef.current.addEventListener('load', this.setSpans)
+    }
+
+    setSpans = () => {
+        const height = this.imageRef.current.clientHeight
+        const spans = Math.ceil(height / 10)
+        this.setState({ spans })
+    }
+
+    render(){
+        const { description, urls } = this.props.image
+        return (
+            <div style={{ gridRowEnd: `span ${this.state.spans}` }}>
+                <img ref={this.imageRef} alt={description} src={urls.regular} />
+            </div>
+        )
+    }
+}
+
 
 class SearchBar extends React.Component{
     state = { term: "" }
@@ -55,15 +96,10 @@ class App extends React.Component{
                 <SearchBar onSubmit={this.onSearchSubmit} />
                 <div style={{ marginTop: '20px' }}>
                     {this.state.images.length > 0 && (
-                        this.state.images.map((image, index) => (
-                            <img 
-                                key={index}
-                                src={image.urls.thumb} 
-                                alt={index}
-                                style={{ marginRight: '10px'}}
-                            />
-                        )
-                    ))}
+                        <ImageList 
+                            images={this.state.images}
+                        />
+                    )}
                 </div>
             </div>
         )
